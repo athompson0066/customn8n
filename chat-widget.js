@@ -290,7 +290,7 @@
     // Brand header with explicit logo sizing in HTML
     const headerHTML = `
         <div class="brand-header">
-            <img src="${config.branding.logo}" alt="${config.branding.name}" width="120" height="48" style="width:120px;height:48px;object-fit:contain;display:block;" />
+            <img src="${config.branding.logo}" alt="${config.branding.name}" width="120" height="48" style="width:100%;height:48px;object-fit:contain;display:block;" />
             <span>${config.branding.name}</span>
             <button class="close-button">×</button>
         </div>
@@ -369,7 +369,7 @@
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'chat-message bot';
             botMessageDiv.innerHTML = `
-                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" width="40" height="40" style="width:40px;height:40px;border-radius:50%;object-fit:cover;display:block;" />
+                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" width="100" height="100" style="width:100px;height:100px;border-radius:50%;object-fit:cover;display:block;" />
                 <span>${Array.isArray(responseData) ? responseData[0].output : responseData.output}</span>
             `;
             messagesContainer.appendChild(botMessageDiv);
