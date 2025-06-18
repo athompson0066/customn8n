@@ -61,8 +61,8 @@
         }
         .n8n-chat-widget .brand-header img {
             width: 100% !important;
-            height: auto;
             max-width: 100px;
+            height: auto;
             object-fit: contain;
             display: block;
         }
