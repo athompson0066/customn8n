@@ -1,4 +1,3 @@
-// Chat Widget Script (with logo placeholder)
 (function() {
     // Create and inject styles
     const styles = `
@@ -155,6 +154,20 @@
             color: var(--chat--color-font);
             align-self: flex-start;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .n8n-chat-widget .agent-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .n8n-chat-widget .chat-message.bot span {
+            display: inline-block;
+            max-width: 80%;
         }
         .n8n-chat-widget .chat-input {
             padding: 16px;
@@ -235,28 +248,29 @@
     styleSheet.textContent = styles;
     document.head.appendChild(styleSheet);
 
-    // Default configuration with logo placeholder
+    // Default configuration with agent avatar placeholder
     const defaultConfig = {
         webhook: {
             url: '',
             route: ''
         },
         branding: {
-            logo: 'https://yourdomain.com/path/to/logo.png', // <-- PLACEHOLDER LOGO URL
-            name: 'My Custom Bot',
-            welcomeText: 'Welcome! How can I help you today?',
-            responseTimeText: 'Typically replies in a few minutes',
+            logo: '',
+            name: '',
+            agentAvatar: 'https://hammerjack.com.au/wp-content/uploads/2021/08/virtual-assistance-bannercircle.png',
+            welcomeText: '',
+            responseTimeText: '',
             poweredBy: {
                 text: '',
                 link: ''
             }
         },
         style: {
-            primaryColor: '#e74266',
-            secondaryColor: '#20b69e',
+            primaryColor: '',
+            secondaryColor: '',
             position: 'right',
-            backgroundColor: '#f2f4f8',
-            fontColor: '#101330'
+            backgroundColor: '#ffffff',
+            fontColor: '#333333'
         }
     };
 
@@ -268,7 +282,6 @@
             style: { ...defaultConfig.style, ...window.ChatWidgetConfig.style }
         } : defaultConfig;
 
-    // Prevent multiple initializations
     if (window.N8NChatWidgetInitialized) return;
     window.N8NChatWidgetInitialized = true;
 
@@ -277,8 +290,6 @@
     // Create widget container
     const widgetContainer = document.createElement('div');
     widgetContainer.className = 'n8n-chat-widget';
-    
-    // Set CSS variables for colors
     widgetContainer.style.setProperty('--n8n-chat-primary-color', config.style.primaryColor);
     widgetContainer.style.setProperty('--n8n-chat-secondary-color', config.style.secondaryColor);
     widgetContainer.style.setProperty('--n8n-chat-background-color', config.style.backgroundColor);
@@ -286,7 +297,7 @@
 
     const chatContainer = document.createElement('div');
     chatContainer.className = `chat-container${config.style.position === 'left' ? ' position-left' : ''}`;
-    
+
     const newConversationHTML = `
         <div class="brand-header">
             <img src="${config.branding.logo}" alt="${config.branding.name}">
@@ -319,16 +330,16 @@
             </div>
         </div>
     `;
-    
+
     chatContainer.innerHTML = newConversationHTML + chatInterfaceHTML;
-    
+
     const toggleButton = document.createElement('button');
     toggleButton.className = `chat-toggle${config.style.position === 'left' ? ' position-left' : ''}`;
     toggleButton.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2.5 21.5l4.5-.838A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.476 0-2.886-.313-4.156-.878l-3.156.586.586-3.156A7.962 7.962 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/>
         </svg>`;
-    
+
     widgetContainer.appendChild(chatContainer);
     widgetContainer.appendChild(toggleButton);
     document.body.appendChild(widgetContainer);
@@ -349,17 +360,13 @@
             action: "loadPreviousSession",
             sessionId: currentSessionId,
             route: config.webhook.route,
-            metadata: {
-                userId: ""
-            }
+            metadata: { userId: "" }
         }];
 
         try {
             const response = await fetch(config.webhook.url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
 
@@ -368,9 +375,13 @@
             chatContainer.querySelector('.new-conversation').style.display = 'none';
             chatInterface.classList.add('active');
 
+            // Bot message with avatar
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'chat-message bot';
-            botMessageDiv.textContent = Array.isArray(responseData) ? responseData[0].output : responseData.output;
+            botMessageDiv.innerHTML = `
+                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" />
+                <span>${Array.isArray(responseData) ? responseData[0].output : responseData.output}</span>
+            `;
             messagesContainer.appendChild(botMessageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         } catch (error) {
@@ -384,9 +395,7 @@
             sessionId: currentSessionId,
             route: config.webhook.route,
             chatInput: message,
-            metadata: {
-                userId: ""
-            }
+            metadata: { userId: "" }
         };
 
         const userMessageDiv = document.createElement('div');
@@ -398,17 +407,19 @@
         try {
             const response = await fetch(config.webhook.url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(messageData)
             });
-            
+
             const data = await response.json();
-            
+
+            // Bot message with avatar
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'chat-message bot';
-            botMessageDiv.textContent = Array.isArray(data) ? data[0].output : data.output;
+            botMessageDiv.innerHTML = `
+                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" />
+                <span>${Array.isArray(data) ? data[0].output : data.output}</span>
+            `;
             messagesContainer.appendChild(botMessageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         } catch (error) {
@@ -417,7 +428,7 @@
     }
 
     newChatBtn.addEventListener('click', startNewConversation);
-    
+
     sendButton.addEventListener('click', () => {
         const message = textarea.value.trim();
         if (message) {
@@ -425,7 +436,7 @@
             textarea.value = '';
         }
     });
-    
+
     textarea.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -436,7 +447,7 @@
             }
         }
     });
-    
+
     toggleButton.addEventListener('click', () => {
         chatContainer.classList.toggle('open');
     });
