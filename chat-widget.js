@@ -60,9 +60,8 @@
             opacity: 1;
         }
         .n8n-chat-widget .brand-header img {
-            width: 100% !important;
-            max-width: 100px;
-            height: auto;
+            width: 100px !important;
+            height: 40px !important;
             object-fit: contain;
             display: block;
         }
@@ -162,11 +161,12 @@
             gap: 10px;
         }
         .n8n-chat-widget .agent-avatar {
-            width: 32px;
-            height: 32px;
+            width: 32px !important;
+            height: 32px !important;
             border-radius: 50%;
             object-fit: cover;
             flex-shrink: 0;
+            display: block;
         }
         .n8n-chat-widget .chat-message.bot span {
             display: inline-block;
@@ -301,12 +301,17 @@
     const chatContainer = document.createElement('div');
     chatContainer.className = `chat-container${config.style.position === 'left' ? ' position-left' : ''}`;
 
-    const newConversationHTML = `
+    // Brand header with explicit logo sizing
+    const headerHTML = `
         <div class="brand-header">
-            <img src="${config.branding.logo}" alt="${config.branding.name}">
+            <img src="${config.branding.logo}" alt="${config.branding.name}" width="100" height="40" style="width:100px;height:40px;object-fit:contain;display:block;" />
             <span>${config.branding.name}</span>
             <button class="close-button">×</button>
         </div>
+    `;
+
+    const newConversationHTML = `
+        ${headerHTML}
         <div class="new-conversation">
             <h2 class="welcome-text">${config.branding.welcomeText}</h2>
             <button class="new-chat-btn">
@@ -321,11 +326,7 @@
 
     const chatInterfaceHTML = `
         <div class="chat-interface">
-            <div class="brand-header">
-                <img src="${config.branding.logo}" alt="${config.branding.name}">
-                <span>${config.branding.name}</span>
-                <button class="close-button">×</button>
-            </div>
+            ${headerHTML}
             <div class="chat-messages"></div>
             <div class="chat-input">
                 <textarea placeholder="Type your message here..." rows="1"></textarea>
@@ -382,7 +383,7 @@
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'chat-message bot';
             botMessageDiv.innerHTML = `
-                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" />
+                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" width="32" height="32" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;display:block;" />
                 <span>${Array.isArray(responseData) ? responseData[0].output : responseData.output}</span>
             `;
             messagesContainer.appendChild(botMessageDiv);
@@ -420,7 +421,7 @@
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'chat-message bot';
             botMessageDiv.innerHTML = `
-                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" />
+                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" width="32" height="32" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;display:block;" />
                 <span>${Array.isArray(data) ? data[0].output : data.output}</span>
             `;
             messagesContainer.appendChild(botMessageDiv);
