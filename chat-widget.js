@@ -59,12 +59,6 @@
         .n8n-chat-widget .close-button:hover {
             opacity: 1;
         }
-        .n8n-chat-widget .brand-header img {
-            width: 100px !important;
-            height: 40px !important;
-            object-fit: contain;
-            display: block;
-        }
         .n8n-chat-widget .brand-header span {
             font-size: 18px;
             font-weight: 500;
@@ -159,14 +153,6 @@
             display: flex;
             align-items: flex-start;
             gap: 10px;
-        }
-        .n8n-chat-widget .agent-avatar {
-            width: 32px !important;
-            height: 32px !important;
-            border-radius: 50%;
-            object-fit: cover;
-            flex-shrink: 0;
-            display: block;
         }
         .n8n-chat-widget .chat-message.bot span {
             display: inline-block;
@@ -301,10 +287,10 @@
     const chatContainer = document.createElement('div');
     chatContainer.className = `chat-container${config.style.position === 'left' ? ' position-left' : ''}`;
 
-    // Brand header with explicit logo sizing
+    // Brand header with explicit logo sizing in HTML
     const headerHTML = `
         <div class="brand-header">
-            <img src="${config.branding.logo}" alt="${config.branding.name}" width="100" height="40" style="width:100px;height:40px;object-fit:contain;display:block;" />
+            <img src="${config.branding.logo}" alt="${config.branding.name}" width="120" height="48" style="width:120px;height:48px;object-fit:contain;display:block;" />
             <span>${config.branding.name}</span>
             <button class="close-button">×</button>
         </div>
@@ -379,11 +365,11 @@
             chatContainer.querySelector('.new-conversation').style.display = 'none';
             chatInterface.classList.add('active');
 
-            // Bot message with avatar
+            // Bot message with avatar (HTML attributes for size)
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'chat-message bot';
             botMessageDiv.innerHTML = `
-                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" width="32" height="32" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;display:block;" />
+                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" width="40" height="40" style="width:40px;height:40px;border-radius:50%;object-fit:cover;display:block;" />
                 <span>${Array.isArray(responseData) ? responseData[0].output : responseData.output}</span>
             `;
             messagesContainer.appendChild(botMessageDiv);
@@ -417,11 +403,11 @@
 
             const data = await response.json();
 
-            // Bot message with avatar
+            // Bot message with avatar (HTML attributes for size)
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'chat-message bot';
             botMessageDiv.innerHTML = `
-                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" width="32" height="32" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;display:block;" />
+                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" width="40" height="40" style="width:40px;height:40px;border-radius:50%;object-fit:cover;display:block;" />
                 <span>${Array.isArray(data) ? data[0].output : data.output}</span>
             `;
             messagesContainer.appendChild(botMessageDiv);
