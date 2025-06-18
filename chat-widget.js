@@ -60,8 +60,11 @@
             opacity: 1;
         }
         .n8n-chat-widget .brand-header img {
-            width: 32px;
-            height: 32px;
+            width: 100% !important;
+            height: auto;
+            max-width: 100px;
+            object-fit: contain;
+            display: block;
         }
         .n8n-chat-widget .brand-header span {
             font-size: 18px;
@@ -257,7 +260,7 @@
         branding: {
             logo: '',
             name: '',
-            agentAvatar: 'https://hammerjack.com.au/wp-content/uploads/2021/08/virtual-assistance-bannercircle.png',
+            agentAvatar: '',
             welcomeText: '',
             responseTimeText: '',
             poweredBy: {
