@@ -1,21 +1,21 @@
 /* Root variables for easy theming */
 :root {
-  --chat-primary: #854fff;
-  --chat-secondary: #6b3fd4;
+  --chat-primary: #1976d2;
+  --chat-secondary: #1565c0;
   --chat-background: rgba(255,255,255,0.85);
   --chat-header-bg: rgba(245,246,250,0.92);
-  --chat-header-gradient: linear-gradient(90deg, #f5f6fa 60%, #e8eaf6 100%);
+  --chat-header-gradient: linear-gradient(90deg, #e3f2fd 60%, #bbdefb 100%);
   --chat-font: 'San Francisco', 'Segoe UI', Arial, sans-serif;
-  --chat-bubble-user: linear-gradient(90deg, #6b3fd4 0%, #854fff 100%);
+  --chat-bubble-user: linear-gradient(90deg, #1565c0 0%, #1976d2 100%);
   --chat-bubble-bot: rgba(245,246,250,0.95);
   --chat-avatar-bg: #fff;
   --chat-border-radius: 22px;
-  --chat-shadow: 0 8px 40px rgba(0,0,0,0.12);
+  --chat-shadow: 0 8px 40px rgba(25, 118, 210, 0.12);
   --chat-header-height: 88px;
   --chat-input-bg: rgba(255,255,255,0.85);
   --chat-input-border: #e0e0e0;
-  --chat-send-btn-bg: linear-gradient(90deg, #6b3fd4 0%, #854fff 100%);
-  --chat-send-btn-hover: linear-gradient(90deg, #854fff 0%, #6b3fd4 100%);
+  --chat-send-btn-bg: linear-gradient(90deg, #1565c0 0%, #1976d2 100%);
+  --chat-send-btn-hover: linear-gradient(90deg, #1976d2 0%, #1565c0 100%);
 }
 
 /* Main widget container */
@@ -168,7 +168,7 @@
   align-items: center;
   justify-content: center;
   font-size: 1.6rem;
-  box-shadow: 0 2px 8px rgba(133,79,255,0.18);
+  box-shadow: 0 2px 8px rgba(25,118,210,0.18);
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
 }
@@ -215,7 +215,7 @@
   color: white;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(133, 79, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
   z-index: 1001;
   transition: transform 0.3s, background 0.2s;
   display: flex;
