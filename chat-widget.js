@@ -17,10 +17,10 @@
     // Create widget container
     const widgetContainer = document.createElement('div');
     widgetContainer.className = 'n8n-chat-widget';
-    widgetContainer.style.setProperty('--n8n-chat-primary-color', config.style.primaryColor);
-    widgetContainer.style.setProperty('--n8n-chat-secondary-color', config.style.secondaryColor);
-    widgetContainer.style.setProperty('--n8n-chat-background-color', config.style.backgroundColor);
-    widgetContainer.style.setProperty('--n8n-chat-font-color', config.style.fontColor);
+    widgetContainer.style.setProperty('--n8n-chat-primary-color', config.style.primaryColor || '#1976d2'); // Blue
+    widgetContainer.style.setProperty('--n8n-chat-secondary-color', config.style.secondaryColor || '#1565c0'); // Darker blue
+    widgetContainer.style.setProperty('--n8n-chat-background-color', config.style.backgroundColor || '#ffffff');
+    widgetContainer.style.setProperty('--n8n-chat-font-color', config.style.fontColor || '#333333');
 
     const chatContainer = document.createElement('div');
     chatContainer.className = `chat-container${config.style.position === 'left' ? ' position-left' : ''}`;
@@ -28,14 +28,13 @@
     // Brand header with explicit logo sizing in HTML
     const headerHTML = `
         <div class="brand-header">
-            <img src="${config.branding.logo}" alt="${config.branding.name}" width="120" height="48" style="width:100%;height:48px;object-fit:contain;display:block;" />
+            <img src="${config.branding.logo}" alt="${config.branding.name}" width="48" height="48" style="width:48px;height:48px;object-fit:contain;display:block;border-radius:50%;background:#fff;" />
             <span>${config.branding.name}</span>
-            <button class="close-button">×</button>
+            <button class="close-button" title="Close chat" aria-label="Close chat">×</button>
         </div>
     `;
 
-    // --- REMOVE newConversationHTML and related logic ---
-
+    // Only the chat interface (no overlays, no extra messages)
     const chatInterfaceHTML = `
         <div class="chat-interface active">
             ${headerHTML}
@@ -47,10 +46,7 @@
         </div>
     `;
 
-    // Only use the chat interface (no overlays)
     chatContainer.innerHTML = chatInterfaceHTML;
-
-    // --- REMOVE toggleButton and related logic ---
     widgetContainer.appendChild(chatContainer);
     document.body.appendChild(widgetContainer);
 
@@ -86,7 +82,7 @@
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'chat-message bot';
             botMessageDiv.innerHTML = `
-                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" width="100" height="100" style="width:100px;height:100px;border-radius:50%;object-fit:cover;display:block;" />
+                <img class="agent-avatar" src="${config.branding.agentAvatar}" alt="Agent" width="40" height="40" style="width:40px;height:40px;border-radius:50%;object-fit:cover;display:block;" />
                 <span>${Array.isArray(responseData) ? responseData[0].output : responseData.output}</span>
             `;
             messagesContainer.appendChild(botMessageDiv);
@@ -120,7 +116,7 @@
 
             const data = await response.json();
 
-            // Bot message with avatar (HTML attributes for size)
+            // Bot message with avatar
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'chat-message bot';
             botMessageDiv.innerHTML = `
@@ -133,8 +129,6 @@
             console.error('Error:', error);
         }
     }
-
-    // --- REMOVE newChatBtn and related logic ---
 
     sendButton.addEventListener('click', () => {
         const message = textarea.value.trim();
@@ -163,7 +157,7 @@
         });
     });
 
-    // --- SHOW CHAT INTERFACE AND START SESSION IMMEDIATELY ---
+    // Show chat interface and start session immediately
     chatInterface.classList.add('active');
     startNewConversation();
 })();
